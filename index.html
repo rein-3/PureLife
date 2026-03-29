@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PureLife Home Care</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:   #1B2F4E;
+      --teal:   #2A7F8C;
+      --gold:   #C9A84C;
+      --cream:  #F8F6F1;
+      --light:  #EEF4F5;
+      --white:  #FFFFFF;
+      --text:   #2C2C2C;
+      --muted:  #5F6B7A;
+      --border: #D5E0E3;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Open Sans', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .nav-brand {
+      font-family: 'Merriweather', serif; font-size: 1rem; font-weight: 700;
+      color: var(--white); letter-spacing: 0.5px; line-height: 1.3;
+      padding: 1rem 0; cursor: pointer; text-decoration: none;
+    }
+    .nav-brand small { display: block; font-size: 0.65rem; font-weight: 300; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+    .nav-links { display: flex; list-style: none; }
+    .nav-links li a {
+      display: block; padding: 1.35rem 1.1rem;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.9px;
+      text-transform: uppercase; color: rgba(255,255,255,0.8);
+      text-decoration: none; border-bottom: 3px solid transparent;
+      transition: all 0.2s; cursor: pointer;
+    }
+    .nav-links li a:hover, .nav-links li a.active { color: #fff; border-bottom-color: var(--gold); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+    .hamburger span { width: 22px; height: 2px; background: var(--white); border-radius: 2px; }
+
+    /* PAGES */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* PAGE HERO */
+    .hero-main {
+      position: relative; min-height: 500px;
+      display: flex; align-items: center;
+      background: linear-gradient(135deg, #1B2F4E 0%, #24527a 55%, #2A7F8C 100%);
+      overflow: hidden;
+    }
+    .hero-main::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('hero.jpg') center/cover no-repeat; opacity: 0.15;
+    }
+    .hero-inner { position: relative; z-index: 1; padding: 5rem 6%; max-width: 720px; }
+    .hero-inner h1 { font-family: 'Merriweather', serif; font-size: clamp(1.9rem, 3.8vw, 3rem); font-weight: 700; color: #fff; line-height: 1.25; margin-bottom: 1rem; }
+    .hero-inner p { font-size: 1.05rem; color: rgba(255,255,255,0.8); line-height: 1.8; margin-bottom: 2rem; font-weight: 300; }
+    .btn-gold {
+      background: var(--gold); color: var(--navy);
+      padding: 0.8rem 2rem; border-radius: 3px; border: none;
+      font-family: 'Open Sans', sans-serif; font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.8px; text-transform: uppercase;
+      cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s;
+    }
+    .btn-gold:hover { background: #e0bb5c; transform: translateY(-2px); }
+
+    .page-banner {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
+      padding: 3.5rem 6%; text-align: center;
+    }
+    .page-banner h1 { font-family: 'Merriweather', serif; font-size: clamp(1.6rem,3vw,2.2rem); color: #fff; margin-bottom: 0.7rem; }
+    .page-banner p { color: rgba(255,255,255,0.78); font-size: 0.97rem; max-width: 680px; margin: 0 auto; line-height: 1.8; font-weight: 300; }
+
+    /* SECTION */
+    .sec { padding: 4.5rem 6%; }
+    .sec-cream { background: var(--cream); }
+    .sec-light { background: var(--light); }
+    .sec-navy  { background: var(--navy); }
+    .sec-white { background: var(--white); }
+
+    .sec-title { font-family: 'Merriweather', serif; font-size: clamp(1.4rem,2.5vw,2rem); font-weight: 700; color: var(--navy); margin-bottom: 0.6rem; line-height: 1.3; }
+    .sec-title.wh { color: #fff; }
+    .divider { width: 55px; height: 4px; background: var(--gold); margin: 0.6rem 0 1.4rem; border-radius: 2px; }
+    .sec-lead { font-size: 0.96rem; color: var(--muted); line-height: 1.85; max-width: 720px; }
+    .sec-lead.wh { color: rgba(255,255,255,0.75); }
+
+    /* PAID CARE */
+    .paid-grid { display: grid; grid-template-columns: 200px 1fr; gap: 3rem; align-items: center; }
+    .paid-grid h2 { font-family: 'Merriweather', serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 0.9rem; line-height: 1.45; }
+    .paid-grid h2 strong { color: var(--teal); }
+    .paid-grid p { font-size: 0.94rem; color: var(--muted); line-height: 1.85; margin-bottom: 1.1rem; }
+
+    /* Img placeholder */
+    .ph {
+      width: 100%; border-radius: 7px;
+      background: #deeaed; border: 2px dashed #a8c9cf;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: #6a9aa5; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.8px;
+      text-transform: uppercase; gap: 0.4rem; padding: 1.5rem; aspect-ratio: 4/3;
+    }
+    .ph .ei { font-size: 2rem; }
+    .ph.sq { aspect-ratio: 1/1; }
+    .ph.sm { max-width: 80px; margin: 0 auto 0.8rem; }
+
+    /* ELIG BANNER */
+    .elig-strip { background: var(--light); border-left: 5px solid var(--teal); padding: 1.8rem 2.5rem; border-radius: 6px; text-align: center; margin: 0; }
+    .elig-strip h3 { font-family: 'Merriweather', serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 0.4rem; }
+    .elig-strip p { font-size: 0.91rem; color: var(--muted); margin-bottom: 0.9rem; }
+
+    /* SERVICES GRID */
+    .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; }
+    .svc-item { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 1.6rem; transition: all 0.2s; }
+    .svc-item:hover { box-shadow: 0 8px 22px rgba(42,127,140,0.13); transform: translateY(-3px); }
+    .svc-item h4 { font-family: 'Merriweather', serif; font-size: 0.98rem; color: var(--navy); margin: 0.9rem 0 0.5rem; }
+    .svc-item p { font-size: 0.87rem; color: var(--muted); line-height: 1.75; }
+    .svc-sep { border: none; border-top: 2px solid var(--border); margin: 1.4rem 0; }
+    .svc-col { }
+
+    /* HIPAA */
+    .hipaa-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; margin-top: 2rem; text-align: center; }
+    .hipaa-item p { font-size: 0.86rem; color: rgba(255,255,255,0.65); margin-top: 0.5rem; }
+    .hipaa-item strong { display: block; color: #fff; font-size: 0.9rem; margin-bottom: 0.2rem; }
+
+    /* LINKS */
+    .lbtn {
+      display: inline-block; background: var(--teal); color: var(--white);
+      padding: 0.55rem 1.3rem; border-radius: 3px; text-decoration: none;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+      transition: background 0.2s; cursor: pointer; border: none; font-family: 'Open Sans', sans-serif;
+    }
+    .lbtn:hover { background: var(--navy); }
+    .lbtn.out { background: transparent; color: var(--teal); border: 2px solid var(--teal); }
+    .lbtn.out:hover { background: var(--teal); color: #fff; }
+
+    /* QUIZ */
+    .quiz-wrap { max-width: 680px; margin: 0 auto; }
+    .quiz-card { background: var(--white); border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 4px 24px rgba(0,0,0,0.07); overflow: hidden; }
+    .quiz-head { background: var(--navy); padding: 1.8rem 2.2rem; color: #fff; }
+    .quiz-head h3 { font-family: 'Merriweather', serif; font-size: 1.25rem; margin-bottom: 0.3rem; }
+    .quiz-head p { font-size: 0.86rem; color: rgba(255,255,255,0.68); }
+    .quiz-body { padding: 2.2rem; }
+    .prog-track { background: #e0eaec; border-radius: 50px; height: 6px; margin-bottom: 2rem; }
+    .prog-fill { height: 100%; background: var(--teal); border-radius: 50px; transition: width 0.4s ease; }
+    .qb { display: none; animation: fadeUp 0.32s ease both; }
+    .qb.on { display: block; }
+    .q-step { font-size: 0.73rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem; }
+    .q-txt { font-size: 0.98rem; font-weight: 600; color: var(--navy); margin-bottom: 1.3rem; line-height: 1.6; }
+    .opts { display: flex; flex-direction: column; gap: 0.65rem; }
+    .opt {
+      background: var(--cream); border: 2px solid var(--border);
+      border-radius: 6px; padding: 0.85rem 1.1rem;
+      font-family: 'Open Sans', sans-serif; font-size: 0.9rem; color: var(--text);
+      text-align: left; cursor: pointer; transition: all 0.18s; width: 100%;
+    }
+    .opt:hover { border-color: var(--teal); background: var(--light); }
+    .opt.sel { border-color: var(--teal); background: var(--light); color: var(--navy); font-weight: 600; }
+    .qnav { display: flex; gap: 0.7rem; margin-top: 1.6rem; }
+    .qnav button { flex: 1; padding: 0.78rem; border-radius: 4px; border: none; font-family: 'Open Sans', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: all 0.18s; }
+    .qnxt { background: var(--teal); color: #fff; }
+    .qnxt:hover { background: var(--navy); }
+    .qbck { background: transparent; color: var(--muted); border: 2px solid var(--border) !important; }
+    .q-result { display: none; text-align: center; padding: 2.5rem 1.5rem; }
+    .q-result.on { display: block; animation: fadeUp 0.4s ease both; }
+    .q-result .ico { font-size: 3.2rem; margin-bottom: 0.9rem; }
+    .q-result h3 { font-family: 'Merriweather', serif; font-size: 1.45rem; color: var(--navy); margin-bottom: 0.7rem; }
+    .q-result p { font-size: 0.93rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.4rem; }
+    .r-yes { border-top: 5px solid #2a8c5a; }
+    .r-no  { border-top: 5px solid #c27a1a; }
+    .restart { background: none; border: none; color: var(--muted); font-size: 0.82rem; text-decoration: underline; cursor: pointer; margin-top: 0.4rem; }
+
+    /* FORMS PAGE */
+    .pdf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.4rem; }
+    .pdf-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem; display: flex; align-items: flex-start; gap: 1.1rem; transition: all 0.2s; }
+    .pdf-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.09); border-color: var(--teal); }
+    .pdf-ico { width: 46px; height: 54px; background: #e8f0f2; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+    .pdf-info h4 { font-size: 0.88rem; font-weight: 700; color: var(--navy); margin-bottom: 0.25rem; word-break: break-word; }
+    .pdf-meta { font-size: 0.76rem; color: var(--muted); margin-bottom: 0.7rem; }
+    .pdf-meta b { background: var(--light); padding: 0.12rem 0.4rem; border-radius: 2px; font-weight: 700; text-transform: uppercase; font-size: 0.7rem; margin-right: 0.3rem; }
+    .pdf-dl { display: inline-flex; align-items: center; gap: 0.35rem; background: var(--teal); color: #fff; padding: 0.42rem 0.95rem; border-radius: 3px; font-size: 0.78rem; font-weight: 700; text-decoration: none; letter-spacing: 0.3px; text-transform: uppercase; transition: background 0.2s; }
+    .pdf-dl:hover { background: var(--navy); }
+    .add-note { background: #fff8e7; border: 1px dashed var(--gold); border-radius: 7px; padding: 1.4rem 1.8rem; font-size: 0.87rem; color: #7a5c00; line-height: 1.65; margin-top: 2rem; }
+    .add-note strong { display: block; margin-bottom: 0.3rem; font-size: 0.9rem; }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 4rem; align-items: start; }
+    .cinfo h4 { font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); margin-bottom: 0.2rem; }
+    .cinfo p { font-size: 0.93rem; color: var(--muted); margin-bottom: 1.4rem; }
+    .cform { background: var(--cream); border-radius: 9px; padding: 2.2rem; border: 1px solid var(--border); }
+    .cform h3 { font-family: 'Merriweather', serif; font-size: 1.15rem; color: var(--navy); margin-bottom: 1.3rem; }
+    .fg { margin-bottom: 1rem; }
+    .fg label { font-size: 0.78rem; font-weight: 700; color: var(--navy); display: block; margin-bottom: 0.35rem; }
+    .fg .req { color: var(--teal); }
+    .fg .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+    .fg input, .fg textarea { width: 100%; background: var(--white); border: 1px solid var(--border); border-radius: 5px; padding: 0.72rem 0.95rem; font-family: 'Open Sans', sans-serif; font-size: 0.9rem; color: var(--text); outline: none; transition: border-color 0.2s; }
+    .fg input:focus, .fg textarea:focus { border-color: var(--teal); }
+    .fg textarea { min-height: 110px; resize: vertical; }
+    .btn-sub { width: 100%; background: var(--navy); color: #fff; border: none; border-radius: 4px; padding: 0.88rem; font-family: 'Open Sans', sans-serif; font-size: 0.93rem; font-weight: 700; cursor: pointer; letter-spacing: 0.4px; transition: background 0.2s; }
+    .btn-sub:hover { background: var(--teal); }
+    .form-ok { display: none; text-align: center; padding: 2rem; }
+    .form-ok.on { display: block; }
+    .form-ok .tick { font-size: 2.5rem; margin-bottom: 0.7rem; }
+    .form-ok h4 { font-family: 'Merriweather', serif; color: var(--navy); font-size: 1.15rem; margin-bottom: 0.4rem; }
+    .form-ok p { color: var(--muted); font-size: 0.88rem; }
+
+    /* FOOTER */
+    footer { background: var(--navy); border-top: 3px solid var(--gold); padding: 2.2rem 6%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.2rem; }
+    .f-brand { font-family: 'Merriweather', serif; font-size: 1rem; font-weight: 700; color: #fff; }
+    .f-links { display: flex; gap: 1.3rem; flex-wrap: wrap; }
+    .f-links a { color: rgba(255,255,255,0.55); font-size: 0.8rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.7px; cursor: pointer; transition: color 0.2s; }
+    .f-links a:hover { color: var(--gold); }
+    footer .copy { width: 100%; text-align: center; color: rgba(255,255,255,0.35); font-size: 0.76rem; }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+    @media(max-width:900px){
+      .svc-grid, .hipaa-grid, .contact-grid, .paid-grid { grid-template-columns:1fr; gap:1.5rem; }
+      .paid-grid .ph { display:none; }
+      .nav-links { display:none; flex-direction:column; position:absolute; top:100%; left:0; right:0; background:var(--navy); z-index:300; }
+      .nav-links.open { display:flex; }
+      .nav-links li a { border-bottom: 1px solid rgba(255,255,255,0.08); padding:0.95rem 6%; }
+      .hamburger { display:flex; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" onclick="go('home')">PureLife Home Care<small>Michigan</small></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="go('home')"        id="nl-home">Home</a></li>
+    <li><a onclick="go('services')"    id="nl-services">Services</a></li>
+    <li><a onclick="go('eligibility')" id="nl-eligibility">Eligibility</a></li>
+    <li><a onclick="go('forms')"       id="nl-forms">Forms</a></li>
+    <li><a onclick="go('contact')"     id="nl-contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="page-home">
+
+  <div class="hero-main">
+    <div class="hero-inner">
+      <h1>PureLife Home Care</h1>
+      <p>Let our advisors help you reach the goals you have.</p>
+      <a class="btn-gold" onclick="go('services')">Find Out More</a>
+    </div>
+  </div>
+
+  <div class="sec sec-white">
+    <div class="paid-grid">
+      <div class="ph sq"><div class="ei">🏠</div>Add Image</div>
+      <div>
+        <h2>How Can You Get <strong>Paid</strong> to Care for Your Loved One?</h2>
+        <p>PureLife Home Care helps families understand programs that allow them to receive compensation for caring for elderly or disabled loved ones at home. Many people don't realize that Medicaid offers programs that allow family members to become paid caregivers.</p>
+        <a class="lbtn" href="https://purelifehomecare.weebly.com/uploads/1/0/7/3/107389035/mdhhs-pub-1733.pdf" target="_blank">Find Out More</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec sec-light" style="padding-top:2.5rem;padding-bottom:2.5rem;">
+    <div class="elig-strip">
+      <h3>Caregiver Eligibility &amp; Support</h3>
+      <p>Helping families understand whether they may qualify to receive compensation for caring for a loved one at home.</p>
+      <button class="lbtn" onclick="go('eligibility')">Find Out More for Eligibility</button>
+    </div>
+  </div>
+
+  <div class="sec sec-cream">
+    <h2 class="sec-title">Our Services</h2>
+    <div class="divider"></div>
+    <div class="svc-grid">
+      <div class="svc-col">
+        <div class="svc-item">
+          <div class="ph"><div class="ei">📋</div>Add Image</div>
+          <h4>Program Guidance</h4>
+          <p>We simplify complex Medicaid caregiver programs so you can understand your options with confidence.</p>
+        </div>
+        <hr class="svc-sep"/>
+        <div class="svc-item">
+          <div class="ph"><div class="ei">🌙</div>Add Image</div>
+          <h4>24/7 Availability</h4>
+          <p>Reliable care whenever it's needed, day or night. Our team is always available to provide assistance and peace of mind for clients and families.</p>
+        </div>
+      </div>
+      <div class="svc-col">
+        <div class="svc-item">
+          <div class="ph"><div class="ei">📅</div>Add Image</div>
+          <h4>Long-Term Care Planning</h4>
+          <p>Plan ahead for your loved one's care and discover resources that support in-home assistance.</p>
+        </div>
+        <hr class="svc-sep"/>
+        <div class="svc-item">
+          <div class="ph"><div class="ei">💰</div>Add Image</div>
+          <h4>Competitive Caregiver Pay</h4>
+          <p>We offer competitive pay to attract skilled caregivers, ensuring every client receives reliable, high-quality care delivered with professionalism, compassion, and respect.</p>
+        </div>
+      </div>
+      <div class="svc-col">
+        <div class="svc-item">
+          <div class="ph"><div class="ei">✅</div>Add Image</div>
+          <h4>Enrollment Support</h4>
+          <p>Check if you qualify in a few minutes and get help navigating the application process.</p>
+        </div>
+        <hr class="svc-sep"/>
+        <div class="svc-item">
+          <div class="ph"><div class="ei">🤲</div>Add Image</div>
+          <h4>Personal Care Assistance</h4>
+          <p>Support with everyday activities like bathing, dressing, grooming, and mobility, helping clients stay comfortable, safe, and independent at home.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec sec-navy">
+    <h2 class="sec-title wh">HIPAA Compliant</h2>
+    <div class="divider"></div>
+    <p class="sec-lead wh">PureLife Home Care follows strict privacy practices to protect the personal and health information of the families we assist. In accordance with the Health Insurance Portability and Accountability Act, we safeguard sensitive information and only use it to help connect families with available caregiving resources.</p>
+    <div class="hipaa-grid">
+      <div class="hipaa-item">
+        <div class="ph sm" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.18);color:rgba(255,255,255,0.5);"><div class="ei">🔒</div></div>
+        <strong>Encrypted Data</strong>
+        <p>All client information is 256-bit encrypted.</p>
+      </div>
+      <div class="hipaa-item">
+        <div class="ph sm" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.18);color:rgba(255,255,255,0.5);"><div class="ei">📊</div></div>
+        <strong>Regular Audits</strong>
+        <p>Quarterly compliance reviews.</p>
+      </div>
+      <div class="hipaa-item">
+        <div class="ph sm" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.18);color:rgba(255,255,255,0.5);"><div class="ei">🎓</div></div>
+        <strong>Trained Staff</strong>
+        <p>Annual HIPAA training for all employees.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec sec-white">
+    <h2 class="sec-title">About Us</h2>
+    <div class="divider"></div>
+    <p class="sec-lead">We are dedicated to providing compassionate, reliable in-home care that helps individuals maintain their independence and quality of life. Our team is committed to delivering personalized support with professionalism and respect.</p>
+  </div>
+
+</div><!-- /home -->
+
+
+<!-- ══ SERVICES ══ -->
+<div class="page" id="page-services">
+  <div class="page-banner">
+    <h1>Services</h1>
+    <p>Complete our quick form to see if you or your loved one may qualify for programs that allow family members to get paid for providing care. We'll review your information and help guide you through available options, including programs like the Michigan Home Help Program and Medicaid Self-Directed Care Programs.</p>
+  </div>
+  <div class="sec sec-white">
+    <div class="svc-grid">
+      <div class="svc-col">
+        <div class="svc-item"><div class="ph"><div class="ei">📋</div>Add Image</div><h4>Program Guidance</h4><p>We simplify complex Medicaid caregiver programs so you can understand your options with confidence.</p></div>
+        <hr class="svc-sep"/>
+        <div class="svc-item"><div class="ph"><div class="ei">🌙</div>Add Image</div><h4>24/7 Availability</h4><p>Reliable care whenever it's needed, day or night. Our team is always available to provide assistance and peace of mind for clients and families.</p></div>
+      </div>
+      <div class="svc-col">
+        <div class="svc-item"><div class="ph"><div class="ei">📅</div>Add Image</div><h4>Long-Term Care Planning</h4><p>Plan ahead for your loved one's care and discover resources that support in-home assistance.</p></div>
+        <hr class="svc-sep"/>
+        <div class="svc-item"><div class="ph"><div class="ei">💰</div>Add Image</div><h4>Competitive Caregiver Pay</h4><p>We offer competitive pay to attract skilled caregivers, ensuring every client receives reliable, high-quality care delivered with professionalism, compassion, and respect.</p></div>
+      </div>
+      <div class="svc-col">
+        <div class="svc-item"><div class="ph"><div class="ei">✅</div>Add Image</div><h4>Enrollment Support</h4><p>Check if you qualify in a few minutes and get help navigating the application process.</p></div>
+        <hr class="svc-sep"/>
+        <div class="svc-item"><div class="ph"><div class="ei">🤲</div>Add Image</div><h4>Personal Care Assistance</h4><p>Support with everyday activities like bathing, dressing, grooming, and mobility, helping clients stay comfortable, safe, and independent at home.</p></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <button class="lbtn" onclick="go('eligibility')">Check Your Eligibility →</button>
+    </div>
+  </div>
+</div><!-- /services -->
+
+
+<!-- ══ ELIGIBILITY ══ -->
+<div class="page" id="page-eligibility">
+  <div class="page-banner">
+    <h1>Eligibility Questionnaire</h1>
+    <p>Answer 5 quick questions to see if you or your loved one may qualify for Michigan's Home Care Compensation Program.</p>
+  </div>
+  <div class="sec sec-cream">
+    <div class="quiz-wrap">
+      <div class="quiz-card">
+        <div class="quiz-head">
+          <h3>Home Care Compensation — Eligibility Check</h3>
+          <p>This takes about 2 minutes. Your answers are private and not stored.</p>
+        </div>
+        <div class="quiz-body">
+          <div class="prog-track"><div class="prog-fill" id="qprog" style="width:0%"></div></div>
+
+          <div class="qb on" id="qq1">
+            <p class="q-step">Question 1 of 5</p>
+            <p class="q-txt">Do you or the person you're caring for currently have Medicaid?</p>
+            <div class="opts">
+              <button class="opt" onclick="pick(this,1,true)">✅  Yes, we have Medicaid</button>
+              <button class="opt" onclick="pick(this,1,false)">❌  No, we do not have Medicaid</button>
+              <button class="opt" onclick="pick(this,1,false)">🤔  I'm not sure</button>
+            </div>
+            <div class="qnav"><button class="qnxt" onclick="qnxt(1)">Next →</button></div>
+          </div>
+
+          <div class="qb" id="qq2">
+            <p class="q-step">Question 2 of 5</p>
+            <p class="q-txt">Are you a resident of the state of Michigan?</p>
+            <div class="opts">
+              <button class="opt" onclick="pick(this,2,true)">✅  Yes, I live in Michigan</button>
+              <button class="opt" onclick="pick(this,2,false)">❌  No, I live in another state</button>
+            </div>
+            <div class="qnav"><button class="qbck" onclick="qbck(2)">← Back</button><button class="qnxt" onclick="qnxt(2)">Next →</button></div>
+          </div>
+
+          <div class="qb" id="qq3">
+            <p class="q-step">Question 3 of 5</p>
+            <p class="q-txt">Is the person receiving care currently living at home (not in a hospital or nursing facility)?</p>
+            <div class="opts">
+              <button class="opt" onclick="pick(this,3,true)">✅  Yes, they are living at home</button>
+              <button class="opt" onclick="pick(this,3,false)">❌  No, they are in a facility or hospital</button>
+            </div>
+            <div class="qnav"><button class="qbck" onclick="qbck(3)">← Back</button><button class="qnxt" onclick="qnxt(3)">Next →</button></div>
+          </div>
+
+          <div class="qb" id="qq4">
+            <p class="q-step">Question 4 of 5</p>
+            <p class="q-txt">Does the person receiving care have a medical condition, disability, or cognitive impairment?</p>
+            <div class="opts">
+              <button class="opt" onclick="pick(this,4,true)">✅  Yes, they have a diagnosis or condition</button>
+              <button class="opt" onclick="pick(this,4,false)">❌  No diagnosed condition</button>
+              <button class="opt" onclick="pick(this,4,false)">🤔  Not sure / awaiting diagnosis</button>
+            </div>
+            <div class="qnav"><button class="qbck" onclick="qbck(4)">← Back</button><button class="qnxt" onclick="qnxt(4)">Next →</button></div>
+          </div>
+
+          <div class="qb" id="qq5">
+            <p class="q-step">Question 5 of 5</p>
+            <p class="q-txt">Does the person need help with any daily activities such as grooming, transportation, eating, or personal hygiene?</p>
+            <div class="opts">
+              <button class="opt" onclick="pick(this,5,true)">✅  Yes, they need help with daily activities</button>
+              <button class="opt" onclick="pick(this,5,false)">❌  No, they are fully independent</button>
+            </div>
+            <div class="qnav"><button class="qbck" onclick="qbck(5)">← Back</button><button class="qnxt" onclick="qsub()">See My Results →</button></div>
+          </div>
+
+          <div class="q-result r-yes" id="qrYes">
+            <div class="ico">🎉</div>
+            <h3>You May Qualify!</h3>
+            <p>Based on your answers, you may be eligible for Michigan's Home Care Compensation Program. A PureLife specialist will help you complete the process at <strong>no cost to you</strong>.</p>
+            <button class="lbtn" onclick="go('contact')">Contact Us Now</button><br><br>
+            <button class="restart" onclick="qreset()">Start Over</button>
+          </div>
+          <div class="q-result r-no" id="qrNo">
+            <div class="ico">💛</div>
+            <h3>You May Not Qualify Right Now</h3>
+            <p>Based on your answers, this specific program may not be the right fit — but there may be other services available to you. Please reach out and our team will explore all options with you.</p>
+            <button class="lbtn" onclick="go('contact')">Talk to Our Team</button><br><br>
+            <button class="restart" onclick="qreset()">Start Over</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /eligibility -->
+
+
+<!-- ══ FORMS ══ -->
+<div class="page" id="page-forms">
+  <div class="page-banner">
+    <h1>Forms</h1>
+    <p>These forms are provided by the Michigan Department of Health and Human Services and are used as part of the state's home care compensation program.</p>
+  </div>
+  <div class="sec sec-white">
+    <div class="pdf-grid">
+
+      <div class="pdf-card">
+        <div class="pdf-ico">📄</div>
+        <div class="pdf-info">
+          <h4>dch-1183e.pdf</h4>
+          <div class="pdf-meta"><b>PDF</b> 29 KB</div>
+          <a class="pdf-dl" href="dch-1183e.pdf" target="_blank">⬇ Download</a>
+        </div>
+      </div>
+
+      <div class="pdf-card">
+        <div class="pdf-ico">📄</div>
+        <div class="pdf-info">
+          <h4>dhs_390.pdf</h4>
+          <div class="pdf-meta"><b>PDF</b> 299 KB</div>
+          <a class="pdf-dl" href="dhs_390.pdf" target="_blank">⬇ Download</a>
+        </div>
+      </div>
+
+      <div class="pdf-card">
+        <div class="pdf-ico">📄</div>
+        <div class="pdf-info">
+          <h4>dhs-54a_medicalneeds.pdf</h4>
+          <div class="pdf-meta"><b>PDF</b> 88 KB</div>
+          <a class="pdf-dl" href="dhs-54a_medicalneeds.pdf" target="_blank">⬇ Download</a>
+        </div>
+      </div>
+
+      <div class="pdf-card">
+        <div class="pdf-ico">📄</div>
+        <div class="pdf-info">
+          <h4>live-in_caregiver_attestation.pdf</h4>
+          <div class="pdf-meta"><b>PDF</b> 242 KB</div>
+          <a class="pdf-dl" href="live-in_caregiver_attestation.pdf" target="_blank">⬇ Download</a>
+        </div>
+      </div>
+
+      <div class="pdf-card">
+        <div class="pdf-ico">📄</div>
+        <div class="pdf-info">
+          <h4>msa-4676.pdf</h4>
+          <div class="pdf-meta"><b>PDF</b> 404 KB</div>
+          <a class="pdf-dl" href="msa-4676.pdf" target="_blank">⬇ Download</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="add-note">
+      <strong>📎 How to Add More Forms</strong>
+      Place your PDF files in the same folder as <code>index.html</code> on GitHub, then copy one of the cards above and update the filename and size. Upload everything to your GitHub repository and they'll be live instantly.
+    </div>
+  </div>
+</div><!-- /forms -->
+
+
+<!-- ══ CONTACT ══ -->
+<div class="page" id="page-contact">
+  <div class="page-banner">
+    <h1>Get in Touch</h1>
+    <p>Have questions? Our care coordinators are ready to help you understand your options.</p>
+  </div>
+  <div class="sec sec-white">
+    <div class="contact-grid">
+      <div class="cinfo">
+        <h2 class="sec-title">Contact Information</h2>
+        <div class="divider"></div>
+        <h4>Phone</h4><p>(555) 000-0000</p>
+        <h4>Email</h4><p>info@purelifehomecare.com</p>
+        <h4>Service Area</h4><p>Michigan Statewide</p>
+        <h4>Office Hours</h4><p>Monday – Friday: 9:00 AM – 5:00 PM</p>
+      </div>
+      <div class="cform">
+        <div id="cfBody">
+          <h3>Send Us a Message</h3>
+          <div class="fg">
+            <label>Name <span class="req">*</span></label>
+            <div class="row">
+              <input type="text" placeholder="First"/>
+              <input type="text" placeholder="Last"/>
+            </div>
+          </div>
+          <div class="fg"><label>Email <span class="req">*</span></label><input type="email" placeholder="your@email.com"/></div>
+          <div class="fg"><label>Comment <span class="req">*</span></label><textarea placeholder="How can we help you?"></textarea></div>
+          <button class="btn-sub" onclick="subCF()">Submit</button>
+        </div>
+        <div class="form-ok" id="cfOK">
+          <div class="tick">✅</div>
+          <h4>Thank You!</h4>
+          <p>We've received your message and will be in touch within 1 business day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /contact -->
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-brand">PureLife Home Care</div>
+  <div class="f-links">
+    <a onclick="go('home')">Home</a>
+    <a onclick="go('services')">Services</a>
+    <a onclick="go('eligibility')">Eligibility</a>
+    <a onclick="go('forms')">Forms</a>
+    <a onclick="go('contact')">Contact</a>
+  </div>
+  <p class="copy">© 2025 PureLife Home Care. All rights reserved. | Michigan</p>
+</footer>
+
+
+<script>
+  const PAGES = ['home','services','eligibility','forms','contact'];
+
+  function go(name) {
+    PAGES.forEach(p => {
+      document.getElementById('page-' + p).classList.toggle('active', p === name);
+      const nl = document.getElementById('nl-' + p);
+      if (nl) nl.classList.toggle('active', p === name);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('navLinks').classList.remove('open');
+  }
+  document.getElementById('nl-home').classList.add('active');
+
+  // Quiz
+  const QA = {};
+  function pick(el, n, val) {
+    document.querySelectorAll('#qq'+n+' .opt').forEach(b => b.classList.remove('sel'));
+    el.classList.add('sel'); QA[n] = val;
+  }
+  function setprog(s) { document.getElementById('qprog').style.width = (s/5*100)+'%'; }
+  function qnxt(n) {
+    if (QA[n] === undefined) { alert('Please select an answer.'); return; }
+    document.getElementById('qq'+n).classList.remove('on');
+    document.getElementById('qq'+(n+1)).classList.add('on');
+    setprog(n);
+  }
+  function qbck(n) {
+    document.getElementById('qq'+n).classList.remove('on');
+    document.getElementById('qq'+(n-1)).classList.add('on');
+    setprog(n-2);
+  }
+  function qsub() {
+    if (QA[5] === undefined) { alert('Please select an answer.'); return; }
+    document.getElementById('qq5').classList.remove('on');
+    setprog(5);
+    const ok = [1,2,3,4,5].every(k => QA[k] === true);
+    document.getElementById(ok ? 'qrYes' : 'qrNo').classList.add('on');
+  }
+  function qreset() {
+    for (let i=1;i<=5;i++) {
+      document.getElementById('qq'+i).classList.remove('on');
+      document.querySelectorAll('#qq'+i+' .opt').forEach(b=>b.classList.remove('sel'));
+      delete QA[i];
+    }
+    document.getElementById('qrYes').classList.remove('on');
+    document.getElementById('qrNo').classList.remove('on');
+    document.getElementById('qq1').classList.add('on');
+    setprog(0);
+  }
+
+  // Contact
+  function subCF() {
+    document.getElementById('cfBody').style.display = 'none';
+    document.getElementById('cfOK').classList.add('on');
+  }
+</script>
+</body>
+</html>
