@@ -119,7 +119,7 @@
 
     /* SERVICES GRID */
     .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; }
-    .svc-item { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 1.6rem; transition: all 0.2s; }
+    .svc-item { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 1.6rem; transition: all 0.2s; display:flex; flex-direction:column; justify-content:flex-start; min-height:170px; }
     .svc-item:hover { box-shadow: 0 8px 22px rgba(42,127,140,0.13); transform: translateY(-3px); }
     .svc-item h4 { font-family: 'Merriweather', serif; font-size: 0.98rem; color: var(--navy); margin: 0.9rem 0 0.5rem; }
     .svc-item p { font-size: 0.87rem; color: var(--muted); line-height: 1.75; }
@@ -225,6 +225,7 @@
     @media(max-width:900px){
       .svc-grid, .hipaa-grid, .contact-grid, .paid-grid { grid-template-columns:1fr; gap:1.5rem; }
       .paid-grid .ph { display:none; }
+      .svc-item { min-height: auto; }
       .nav-links { display:none; flex-direction:column; position:absolute; top:100%; left:0; right:0; background:var(--navy); z-index:300; }
       .nav-links.open { display:flex; }
       .nav-links li a { border-bottom: 1px solid rgba(255,255,255,0.08); padding:0.95rem 6%; }
@@ -263,7 +264,7 @@
 
   <div class="sec sec-white">
     <div class="paid-grid">
-      <div class="ph sq"><div class="ei">🏠</div>Add Image</div>
+      <img src="images/logoes.jpg" style="width:100%;border-radius:7px;display:block;margin:0 auto;"/>
       <div>
         <h2>How Can You Get <strong>Paid</strong> to Care for Your Loved One?</h2>
         <p>PureLife Home Care helps families understand programs that allow them to receive compensation for caring for elderly or disabled loved ones at home. Many people don't realize that Medicaid offers programs that allow family members to become paid caregivers.</p>
@@ -286,39 +287,39 @@
     <div class="svc-grid">
       <div class="svc-col">
         <div class="svc-item">
-          <img src="house-icon.jpg" style="width:50%;border-radius:4px;"/>
+          <img src="images/house-icon.jpg" style="width:20%;border-radius:7px;display:block;margin:0 auto;"/>
           <h4>Program Guidance</h4>
           <p>We simplify complex Medicaid caregiver programs so you can understand your options with confidence.</p>
         </div>
         <hr class="svc-sep"/>
         <div class="svc-item">
-          <div class="ph"><div class="ei">🌙</div>Add Image</div>
+          <img src="images/customer.png" style="width:20%;border-radius:7px;display:block;margin:0 auto;"/>
           <h4>24/7 Availability</h4>
           <p>Reliable care whenever it's needed, day or night. Our team is always available to provide assistance and peace of mind for clients and families.</p>
         </div>
       </div>
       <div class="svc-col">
         <div class="svc-item">
-          <div class="ph"><div class="ei">📅</div>Add Image</div>
+          <img src="images/golf-icon.jpg" style="width:20%;border-radius:7px;display:block;margin:0 auto;"/>
           <h4>Long-Term Care Planning</h4>
           <p>Plan ahead for your loved one's care and discover resources that support in-home assistance.</p>
         </div>
         <hr class="svc-sep"/>
         <div class="svc-item">
-          <div class="ph"><div class="ei">💰</div>Add Image</div>
-          <h4>Competitive Caregiver Pay</h4>
+          <img src="images/money.png" style="width:20%;border-radius:7px;display:block;margin:0 auto;"/>
+          <h4>Competitive Compensation</h4>
           <p>We offer competitive pay to attract skilled caregivers, ensuring every client receives reliable, high-quality care delivered with professionalism, compassion, and respect.</p>
         </div>
       </div>
       <div class="svc-col">
         <div class="svc-item">
-          <div class="ph"><div class="ei">✅</div>Add Image</div>
+          <img src="images/graph-image.jpg" style="width:20%;border-radius:7px;display:block;margin:0 auto;"/>
           <h4>Enrollment Support</h4>
-          <p>Check if you qualify in a few minutes and get help navigating the application process.</p>
+          <p>From checking eligibility to completing forms, we guide you every step of the way so you can be confident.</p>
         </div>
         <hr class="svc-sep"/>
         <div class="svc-item">
-          <div class="ph"><div class="ei">🤲</div>Add Image</div>
+          <img src="images/rcalendar.png" style="width:20%;border-radius:7px;display:block;margin:0 auto;"/>
           <h4>Personal Care Assistance</h4>
           <p>Support with everyday activities like bathing, dressing, grooming, and mobility, helping clients stay comfortable, safe, and independent at home.</p>
         </div>
@@ -367,19 +368,19 @@
   <div class="sec sec-white">
     <div class="svc-grid">
       <div class="svc-col">
-        <div class="svc-item"><div class="ph"><div class="ei">📋</div>Add Image</div><h4>Program Guidance</h4><p>We simplify complex Medicaid caregiver programs so you can understand your options with confidence.</p></div>
+        <div class="svc-item"> <img src="images/house-icon.jpg" style="width:20%;border-radius:7px;display:block;margin:0 auto;" alt="Long-term care" class="svc-img"/><h4>Program Guidance</h4><p>We simplify complex Medicaid caregiver programs so you can understand your options with confidence.</p></div>
         <hr class="svc-sep"/>
-        <div class="svc-item"><div class="ph"><div class="ei">🌙</div>Add Image</div><h4>24/7 Availability</h4><p>Reliable care whenever it's needed, day or night. Our team is always available to provide assistance and peace of mind for clients and families.</p></div>
+        <div class="svc-item"> <img src="images/customer.png" style="width:20%;border-radius:7px;display:block;margin:0 auto;" alt="Long-term care" class="svc-img"/><h4>24/7 Availability</h4><p>Reliable care whenever it's needed, day or night. Our team is always available to provide assistance and peace of mind for clients and families.</p></div>
       </div>
       <div class="svc-col">
-        <div class="svc-item"><div class="ph"><div class="ei">📅</div>Add Image</div><h4>Long-Term Care Planning</h4><p>Plan ahead for your loved one's care and discover resources that support in-home assistance.</p></div>
+        <div class="svc-item"> <img src="images/golf-icon.jpg" style="width:20%;border-radius:7px;display:block;margin:0 auto;" alt="Long-term care" class="svc-img"/><h4>Long-Term Care Planning</h4><p>Plan ahead for your loved one's care and discover resources that support in-home assistance.</p></div>
         <hr class="svc-sep"/>
-        <div class="svc-item"><div class="ph"><div class="ei">💰</div>Add Image</div><h4>Competitive Caregiver Pay</h4><p>We offer competitive pay to attract skilled caregivers, ensuring every client receives reliable, high-quality care delivered with professionalism, compassion, and respect.</p></div>
+        <div class="svc-item"> <img src="images/money.png" style="width:20%;border-radius:7px;display:block;margin:0 auto;" alt="Long-term care" class="svc-img"/><h4>Competitive Caregiver Pay</h4><p>We offer competitive pay to attract skilled caregivers, ensuring every client receives reliable, high-quality care delivered with professionalism, compassion, and respect.</p></div>
       </div>
       <div class="svc-col">
-        <div class="svc-item"><div class="ph"><div class="ei">✅</div>Add Image</div><h4>Enrollment Support</h4><p>Check if you qualify in a few minutes and get help navigating the application process.</p></div>
+        <div class="svc-item"> <img src="images/graph-image.jpg" style="width:20%;border-radius:7px;display:block;margin:0 auto;" alt="Long-term care" class="svc-img"/><h4>Enrollment Support</h4><p>From checking eligibility to completing forms, we guide you every step of the way so you can be confident.</p></div>
         <hr class="svc-sep"/>
-        <div class="svc-item"><div class="ph"><div class="ei">🤲</div>Add Image</div><h4>Personal Care Assistance</h4><p>Support with everyday activities like bathing, dressing, grooming, and mobility, helping clients stay comfortable, safe, and independent at home.</p></div>
+        <div class="svc-item"> <img src="images/rcalendar.png" style="width:20%;border-radius:7px;display:block;margin:0 auto;" alt="Long-term care" class="svc-img"/><h4>Personal Care Assistance</h4><p>Support with everyday activities like bathing, dressing, grooming, and mobility, helping clients stay comfortable, safe, and independent at home.</p></div>
       </div>
     </div>
     <div style="text-align:center;margin-top:2.5rem;">
@@ -534,9 +535,6 @@
 
     </div>
 
-    <div class="add-note">
-      <strong>📎 How to Add More Forms</strong>
-      Place your PDF files in the same folder as <code>index.html</code> on GitHub, then copy one of the cards above and update the filename and size. Upload everything to your GitHub repository and they'll be live instantly.
     </div>
   </div>
 </div><!-- /forms -->
