@@ -560,23 +560,29 @@
         <h4>Office Hours</h4><p>Monday – Friday: 9:00 AM – 5:00 PM</p>
       </div>
       <div class="cform">
-        <div id="cfBody">
-          <h3>Send Us a Message</h3>
-          <div class="fg">
-            <label>Name <span class="req">*</span></label>
-            <div class="row">
-              <input type="text" placeholder="First"/>
-              <input type="text" placeholder="Last"/>
-            </div>
-          </div>
-          <div class="fg"><label>Email <span class="req">*</span></label><input type="email" placeholder="your@email.com"/></div>
-          <div class="fg"><label>Comment <span class="req">*</span></label><textarea placeholder="How can we help you?"></textarea></div>
-          <button class="btn-sub" onclick="subCF()">Submit</button>
+  <div id="cfBody">
+    <h3>Send Us a Message</h3>
+    <form action="https://formspree.io/f/xvzvkedq" method="POST">
+      <div class="fg">
+        <label>Name <span class="req">*</span></label>
+        <div class="row">
+          <input type="text" name="first_name" placeholder="First" required/>
+          <input type="text" name="last_name" placeholder="Last" required/>
         </div>
-        <div class="form-ok" id="cfOK">
-          <div class="tick">✅</div>
-          <h4>Thank You!</h4>
-          <p>We've received your message and will be in touch within 1 business day.</p>
+      </div>
+      <div class="fg"><label>Email <span class="req">*</span></label>
+        <input type="email" name="email" placeholder="your@email.com" required/>
+      </div>
+      <div class="fg"><label>Comment <span class="req">*</span></label>
+        <textarea name="message" placeholder="How can we help you?" required></textarea>
+      </div>
+      <button type="submit" class="btn-sub">Submit</button>
+    </form>
+  </div>
+  <div class="form-ok" id="cfOK">
+    <div class="tick">✅</div>
+    <h4>Thank You!</h4>
+    <p>We've received your message and will be in touch within 1 business day.</p>
         </div>
       </div>
     </div>
