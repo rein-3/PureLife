@@ -623,8 +623,21 @@
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
     document.getElementById('navLinks').classList.remove('open');
+    history.pushState({ page: name }, '', '#' + name);
   }
-  document.getElementById('nl-home').classList.add('active');
+
+  function loadFromHash() {
+    const hash = window.location.hash.replace('#', '');
+    const page = PAGES.includes(hash) ? hash : 'home';
+    PAGES.forEach(p => {
+      document.getElementById('page-' + p).classList.toggle('active', p === page);
+      const nl = document.getElementById('nl-' + p);
+      if (nl) nl.classList.toggle('active', p === page);
+    });
+  }
+
+  window.addEventListener('popstate', loadFromHash);
+  loadFromHash();
 
   // Quiz
   const QA = {};
